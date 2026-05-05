@@ -20,10 +20,19 @@ The codebase is organized with controller, service, use case, repository, and pr
 
 ```bash
 # Clone / enter directory
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+python -m venv .env
+source .env/bin/activate        # Windows PowerShell: .\.env\Scripts\Activate.ps1
 pip install -r requirements.txt
 uvicorn app.main:app --reload
+```
+
+If dependency installation previously failed on Python 3.13 while building `pydantic-core`, recreate the virtual environment and install again after pulling the updated `requirements.txt`:
+
+```bash
+Remove-Item -Recurse -Force .env
+python -m venv .env
+.\.env\Scripts\Activate.ps1
+pip install -r requirements.txt
 ```
 
 ## API Docs
