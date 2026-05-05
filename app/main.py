@@ -7,7 +7,9 @@ from collections.abc import AsyncGenerator
 from fastapi import FastAPI
 
 from app.config import settings
+from app.container import register_container
 from app.database import Base, engine
+from app.routers.address_controller import router as address_router
 
 
 logging.basicConfig(
@@ -26,4 +28,6 @@ async def lifespan(_: FastAPI) -> AsyncGenerator[None, None]:
 
 
 app = FastAPI(title=settings.app_name, version=settings.app_version, lifespan=lifespan)
+register_container(app)
+app.include_router(address_router)
 
