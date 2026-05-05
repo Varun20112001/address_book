@@ -31,3 +31,7 @@ app = FastAPI(title=settings.app_name, version=settings.app_version, lifespan=li
 register_container(app)
 app.include_router(address_router)
 
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="localhost", port=8000)
