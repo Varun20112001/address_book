@@ -1,2 +1,116 @@
-# address_book
-An address book application where API users can create, update and delete addresses.
+# Address Book REST API
+
+A production-ready Address Book REST API built with FastAPI, SQLAlchemy (sync), and SQLite.
+The API supports creating, updating, deleting, listing, and nearby-distance search for addresses.
+
+## Tech Stack
+
+- Python 3.10+
+- FastAPI
+- SQLAlchemy (sync)
+- SQLite
+- Pydantic v2
+- geopy
+- uvicorn
+- python-dotenv
+- pytest + httpx
+
+## Setup & Run
+
+```bash
+# Clone / enter directory
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+## API Docs
+
+http://127.0.0.1:8000/docs
+
+## Run Tests
+
+```bash
+pytest tests/ -v
+```
+
+## Project Structure
+
+```text
+address_book/
+├── app/
+│   ├── main.py
+│   ├── config.py
+│   ├── database.py
+│   ├── models/address.py
+│   ├── schemas/address.py
+│   ├── routers/address.py
+│   ├── services/address.py
+│   └── utils/geo.py
+├── tests/test_addresses.py
+├── requirements.txt
+└── README.md
+```
+
+## API Endpoints and Example cURL Commands
+
+### 1) Create Address
+
+- **POST** `/addresses/`
+
+```bash
+curl -X POST "http://127.0.0.1:8000/addresses/" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "street": "123 Main St",
+    "city": "New York",
+    "state": "NY",
+    "country": "USA",
+    "zip_code": "10001",
+    "latitude": 40.7128,
+    "longitude": -74.0060
+  }'
+```
+
+### 2) List Addresses
+
+- **GET** `/addresses/`
+
+```bash
+curl "http://127.0.0.1:8000/addresses/"
+```
+
+### 3) Get Address by ID
+
+- **GET** `/addresses/{address_id}`
+
+```bash
+curl "http://127.0.0.1:8000/addresses/1"
+```
+
+### 4) Update Address (Partial)
+
+- **PUT** `/addresses/{address_id}`
+
+```bash
+curl -X PUT "http://127.0.0.1:8000/addresses/1" \
+  -H "Content-Type: application/json" \
+  -d '{"city": "Boston"}'
+```
+
+### 5) Delete Address
+
+- **DELETE** `/addresses/{address_id}`
+
+```bash
+curl -X DELETE "http://127.0.0.1:8000/addresses/1"
+```
+
+### 6) Nearby Addresses
+
+- **GET** `/addresses/nearby?latitude=X&longitude=Y&distance_km=Z`
+
+```bash
+curl "http://127.0.0.1:8000/addresses/nearby?latitude=40.7128&longitude=-74.0060&distance_km=10"
+```
